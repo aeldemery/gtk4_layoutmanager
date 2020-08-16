@@ -16,8 +16,9 @@ public class Gtk4Demo.ShufflingRectangles : Gtk.Widget {
         "red", "orange", "yellow", "green",
         "blue", "grey", "magenta", "lime",
         "yellow", "firebrick", "aqua", "purple",
-        "tomato", "pink", "thistle", "maroon"
-        /* , "black", "white", "brown", "rosa" */
+        "tomato", "pink", "thistle", "maroon",
+        "black", "white", "brown", "blueviolet",
+        "chartreuse", "CadetBlue", "Coral", "DarkCyan", "GreenYellow"
     };
 
     static construct {
@@ -26,8 +27,10 @@ public class Gtk4Demo.ShufflingRectangles : Gtk.Widget {
     }
 
     public ShufflingRectangles () {
-        var layout = new ShufflingLayoutManager (16);
+        var layout = new ShufflingLayoutManager ();
         this.set_layout_manager (layout);
+
+        layout.set_desired_column_width (5);
 
         for (int i = 0; i < color.length; i++) {
             var child = new ColorRect (color[i]);
@@ -50,6 +53,8 @@ public class Gtk4Demo.ShufflingRectangles : Gtk.Widget {
     }
 
     public void add_child (Gtk.Widget widget) {
+        var layout = (ShufflingLayoutManager) layout_manager;
+        layout.add_element ();
         widget.set_parent (this);
     }
 

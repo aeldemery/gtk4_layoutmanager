@@ -1,17 +1,23 @@
 public class Gtk4Demo.ShufflingLayoutManager : Gtk.LayoutManager {
     double position;
-    int[] child_pos;
+    Gee.ArrayList<uint> child_pos;
 
-    uint n_children;
+    static uint n_children = 0;
+    int n_grid_columns = 4;
 
-    public ShufflingLayoutManager (uint n_children = 16) {
-        this.n_children = n_children;
-        child_pos = new int[n_children];
-
-        for (int i = 0; i <= n_children; i++) {
-            child_pos[i] = i;
-        }
+    public ShufflingLayoutManager () {
+        child_pos = new Gee.ArrayList<uint>();
     }
+
+    public void add_element () {
+        ++n_children;
+        child_pos.add (n_children);
+    }
+
+    public void set_desired_column_width (int n_elements) {
+        this.n_grid_columns = n_elements;
+    }
+
     public void set_position (double position) {
         this.position = position;
     }
@@ -20,11 +26,11 @@ public class Gtk4Demo.ShufflingLayoutManager : Gtk.LayoutManager {
      * Should be called when we are in the grid layout.
      */
     public void shuffle () {
-        int i, j, tmp;
+        int i, j; uint tmp;
 
         for (i = 0; i < n_children; i++) {
-            j = Random.int_range (0, i+1);
-            tmp = child_pos[i];
+            j = Random.int_range (0, i + 1);
+            tmp = (uint) child_pos[i];
             child_pos[i] = child_pos[j];
             child_pos[j] = tmp;
         }
@@ -107,8 +113,8 @@ public class Gtk4Demo.ShufflingLayoutManager : Gtk.LayoutManager {
             child.get_preferred_size (out child_req, null);
 
             /* The grid position of child. */
-            gx = x0 + (i % 4 - 2) * child_width;
-            gy = y0 + (i / 4 - 2) * child_height;
+            gx = x0 + (i % n_grid_columns - 2) * child_width;
+            gy = y0 + (i / n_grid_columns - 2) * child_height;
 
             /* The circle position of child. Note that we
              * are adjusting the position by half the child size
