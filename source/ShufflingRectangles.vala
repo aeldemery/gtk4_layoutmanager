@@ -12,6 +12,8 @@ public class Gtk4Demo.ShufflingRectangles : Gtk.Widget {
      */
     const double DURAION = 0.5 * GLib.TimeSpan.SECOND;
 
+    const int column_width = 5;
+
     const string[] color = {
         "red", "orange", "yellow", "green",
         "blue", "grey", "magenta", "lime",
@@ -30,14 +32,15 @@ public class Gtk4Demo.ShufflingRectangles : Gtk.Widget {
         var layout = new ShufflingLayoutManager ();
         this.set_layout_manager (layout);
 
-        layout.set_desired_column_width (5);
+        layout.set_desired_column_width (column_width);
+        var margin = color.length / column_width;
 
         for (int i = 0; i < color.length; i++) {
             var child = new ColorRect (color[i]);
-            child.margin_start = 4;
-            child.margin_end = 4;
-            child.margin_top = 4;
-            child.margin_bottom = 4;
+            child.margin_start = margin;
+            child.margin_end = margin;
+            child.margin_top = margin;
+            child.margin_bottom = margin;
             this.add_child (child);
         }
 

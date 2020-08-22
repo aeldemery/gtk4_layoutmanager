@@ -96,7 +96,7 @@ public class Gtk4Demo.ShufflingLayoutManager : Gtk.LayoutManager {
         y0 = height / 2;
 
         /* the radius for our circle of children */
-        r = (n_children / 2) * child_width / Math.PI;
+        r = ((n_children / 2) * child_width) / Math.PI;
 
         for (child = widget.get_first_child (), i = 0;
              child != null;
@@ -131,7 +131,7 @@ public class Gtk4Demo.ShufflingLayoutManager : Gtk.LayoutManager {
             x = (int) (t * cx + (1 - t) * gx);
             y = (int) (t * cy + (1 - t) * gy);
 
-            child.size_allocate_emit ({ x, y, child_width, child_height }, -1);
+            child.allocate_size ({ x, y, child_width, child_height }, -1);
         }
     }
 
